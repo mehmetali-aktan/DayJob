@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ kullanici.ad }} {{ kullanici.soyad }}</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+body{ background:#f4f4f6; font-family:'DM Sans',sans-serif; padding:40px; margin-top: 60px;}
+.card{ max-width:900px; margin:auto; background:white; border-radius:30px; padding:40px; border:1px solid #e7e7ee; }
+.avatar{ width:180px; height:180px; border-radius:50%; overflow:hidden; margin:auto; margin-bottom:25px; background:#e0e1e8; border: 1px solid #e7e7ee;}
+.avatar img{ width:100%; height:100%; object-fit:cover; }
+h1{ text-align:center; margin-bottom:20px; font-family:'Syne',sans-serif; }
+.row{ display:flex; justify-content:space-between; padding:15px 0; border-bottom:1px solid #eee; }
+.label{ color:#777; }
+.value{ font-weight:700; }
+.stats{ margin-top:30px; display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+.stat{ background:#fafafa; border-radius:20px; padding:25px; text-align:center; }
+.number{ font-size:38px; font-weight:800; }
+
+/* NAVBAR SABİTLEMESİ */
+nav { background: white; border-bottom: 1px solid #e7e7ee; padding: 18px 50px; display: flex; align-items: center; justify-content: space-between; position: fixed; top: 0; left: 0; right: 0; z-index: 100; }
+.logo { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 800; text-decoration: none; color: #18181f; }
+.logo span { color: #e8a800; }
+.nav-btns a { padding: 9px 20px; border-radius: 8px; border: 1px solid #e0e1e8; background: transparent; cursor: pointer; text-decoration: none; color: black; font-weight: 600; margin-left: 10px; }
+</style>
+</head>
+<body>
+
+<nav>
+    <a href="/" class="logo">Günlük<span>İŞ</span></a>
+    <div class="nav-btns">
+        <a href="javascript:history.back()" class="btn-ghost">Geri Dön</a>
+    </div>
+</nav>
+
+<div class="card">
+
+    <div class="avatar">
+        {% if calisan.foto %}
+            <img src="{{ calisan.foto.url }}" alt="Profil Fotoğrafı">
+        {% else %}
+            <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 80px;">
+                👤
+            </div>
+        {% endif %}
+    </div>
+
+    <h1>
+        {{ kullanici.ad }} {{ kullanici.soyad }}
+        <div style="color: #e8a800; font-size: 18px; font-weight: 700; margin-top: 10px; margin-bottom: 20px;">
+            ⭐ Performans Puanı: <strong>{{ calisan.ortalama_puan|floatformat:1 }}</strong> ({{ calisan.puan_sayisi }} Değerlendirme)
+        </div>
+    </h1>
+
+    <div class="row">
+        <span class="label">Email</span>
+        <span class="value">{{ kullanici.email }}</span>
+    </div>
+
+    <div class="row">
+        <span class="label">Telefon</span>
+        <span class="value">{{ kullanici.telefon }}</span>
+    </div>
+
+    <div class="row">
+        <span class="label">Boy</span>
+        <span class="value">{{ calisan.boy }} cm</span>
+    </div>
+
+    <div class="row">
+        <span class="label">Kilo</span>
+        <span class="value">{{ calisan.kilo }} kg</span>
+    </div>
+
+    <div class="row">
+        <span class="label">Cinsiyet</span>
+        <span class="value">{{ calisan.cinsiyet }}</span>
+    </div>
+
+    <div class="row">
+        <span class="label">Meslekler</span>
+        <span class="value">{{ calisan.meslekler }}</span>
+    </div>
+
+    <div class="row">
+        <span class="label">Doğum Tarihi</span>
+        <span class="value">{{ kullanici.dogum_tarihi|date:"j F Y" }}</span>
+    </div>
+
+    <div class="stats">
+        <div class="stat">
+            <div class="number">{{ toplam_basvuru }}</div>
+            <div>Toplam Başvuru</div>
+        </div>
+        <div class="stat">
+            <div class="number">{{ onaylanan }}</div>
+            <div>Onaylanan İş</div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

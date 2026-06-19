@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Değerlendirme Bekleyenler</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+body { background:#f4f4f6; font-family:'DM Sans',sans-serif; padding:40px; margin-top: 80px; }
+h1 { font-family:'Syne',sans-serif; margin-bottom:10px; }
+.card { background:white; border-radius:24px; padding:25px; margin-bottom:20px; border:1px solid #e7e7ee; }
+.info { margin:8px 0; color:#555; }
+.btn { padding:12px 18px; border:none; border-radius:12px; cursor:pointer; font-weight:700; margin-top:15px; background:#e8a800; color:black; font-size:16px;}
+.puan-select { padding: 12px; border-radius: 8px; border: 1px solid #e7e7ee; font-size: 16px; margin-right: 10px; outline: none; }
+nav { background: white; border-bottom: 1px solid #e7e7ee; padding: 18px 50px; display: flex; align-items: center; justify-content: space-between; position: fixed; top: 0; left: 0; right: 0; z-index: 100; }
+.logo { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 800; text-decoration: none; color: #18181f; }
+.logo span { color: #e8a800; }
+.nav-btns a { padding: 9px 20px; border-radius: 8px; border: 1px solid #e0e1e8; text-decoration: none; color: black; font-weight: 600; margin-left: 10px; }
+</style>
+</head>
+<body>
+
+<nav>
+    <a href="/" class="logo">Günlük<span>İŞ</span></a>
+    <div class="nav-btns">
+        <a href="/">Anasayfa</a>
+    </div>
+</nav>
+
+<h1>Değerlendirme Bekleyen İşler</h1>
+<p style="color:#7a7a9a; margin-bottom:30px;">Zamanı dolmuş olan işler için puanlama yapabilirsiniz.</p>
+
+{% for basvuru in bekleyen_puanlamalar %}
+<div class="card">
+    {% if kullanici.hesap_turu == 'isletme' %}
+        <h2>Çalışan: {{ basvuru.kullanici.ad }} {{ basvuru.kullanici.soyad }}</h2>
+        <div class="info">💼 İlan: {{ basvuru.ilan.pozisyon }}</div>
+    {% else %}
+        <h2>İşletme: {{ basvuru.ilan.isletme_adi }}</h2>
+        <div class="info">💼 Çalıştığınız Pozisyon: {{ basvuru.ilan.pozisyon }}</div>
+    {% endif %}
+    
+    <div class="info">📅 İş Bitiş Tarihi: {{ basvuru.ilan.bitis_tarihi|date:"d.m.Y H:i" }}</div>
+
+    <form action="/puan-ver/{{ basvuru.id }}/" method="POST" style="margin-top: 20px;">
+        {% csrf_token %}
+        <select name="puan" class="puan-select" required>
+            <option value="" disabled selected>Puan Verin...</option>
+            <option value="5">⭐⭐⭐⭐⭐ Mükemmel (5)</option>
+            <option value="4">⭐⭐⭐⭐ İyi (4)</option>
+            <option value="3">⭐⭐⭐ Orta (3)</option>
+            <option value="2">⭐⭐ Kötü (2)</option>
+            <option value="1">⭐ Çok Kötü (1)</option>
+        </select>
+        <button type="submit" class="btn">Puanı Gönder</button>
+    </form>
+</div>
+{% empty %}
+<div class="card">
+    <p>Şu anda tamamlanmış ve puanlama bekleyen bir işiniz bulunmuyor.</p>
+</div>
+{% endfor %}
+
+</body>
+</html>

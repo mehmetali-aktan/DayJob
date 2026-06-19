@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>İlan Ver — GünlükİŞ</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+    --bg:#f4f4f6;
+    --card:#ffffff;
+    --border:#e7e7ee;
+    --accent:#e8a800;
+    --text:#18181f;
+    --muted:#7a7a9a;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:var(--bg);
+    font-family:'DM Sans',sans-serif;
+    color:var(--text);
+}
+
+/* NAVBAR */
+
+nav{
+    width:100%;
+    background:white;
+    border-bottom:1px solid var(--border);
+
+    padding:18px 50px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.logo{
+    font-family:'Syne',sans-serif;
+    font-size:34px;
+    font-weight:800;
+    text-decoration: none;
+    color: var(--text) !important;
+}
+
+.logo span{
+    color:var(--accent);
+}
+
+.nav-links{
+    display:flex;
+    gap:40px;
+}
+
+.nav-links a{
+    text-decoration:none;
+    color:var(--text);
+    font-weight:500;
+}
+
+.nav-buttons{
+    display:flex;
+    gap:14px;
+}
+
+.btn-ghost{
+    padding:12px 24px;
+    border-radius:14px;
+    border:1px solid var(--border);
+    background:white;
+    cursor:pointer;
+    font-weight:700;
+}
+
+.btn-primary{
+    padding:12px 24px;
+    border-radius:14px;
+    border:none;
+    background:var(--accent);
+    cursor:pointer;
+    font-weight:700;
+}
+
+/* PAGE */
+
+.page{
+    max-width:1150px;
+    margin:auto;
+    padding:60px 30px;
+}
+
+.page-title{
+    font-family:'Syne',sans-serif;
+    font-size:58px;
+    font-weight:800;
+    margin-bottom:10px;
+}
+
+.page-sub{
+    color:var(--muted);
+    font-size:20px;
+    margin-bottom:45px;
+}
+
+/* CARD */
+
+.form-card{
+    background:white;
+    border:1px solid var(--border);
+    border-radius:32px;
+    padding:45px;
+    box-shadow:0 10px 40px rgba(0,0,0,0.04);
+}
+
+/* HEAD */
+
+.form-head{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:35px;
+}
+
+.form-head h2{
+    font-family:'Syne',sans-serif;
+    font-size:40px;
+    margin-bottom:8px;
+}
+
+.form-head p{
+    color:var(--muted);
+}
+
+.step{
+    color:var(--muted);
+    font-weight:700;
+}
+
+/* FORM */
+
+.form-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:22px;
+}
+
+.form-group{
+    margin-bottom:24px;
+}
+
+.form-group label{
+    display:block;
+    margin-bottom:10px;
+    font-size:13px;
+    font-weight:700;
+    text-transform:uppercase;
+    color:#77779a;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea{
+    width:100%;
+    padding:18px;
+    border-radius:16px;
+    border:1px solid var(--border);
+    outline:none;
+    font-size:16px;
+    transition:.2s;
+    font-family:'DM Sans',sans-serif;
+}
+
+.form-group textarea{
+    min-height:140px;
+    resize:none;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus{
+    border-color:var(--accent);
+}
+
+/* BUTTON */
+
+.submit-btn{
+    width:100%;
+    margin-top:10px;
+    padding:22px;
+    border:none;
+    border-radius:18px;
+    background:var(--accent);
+    font-size:24px;
+    font-family:'Syne',sans-serif;
+    font-weight:800;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.submit-btn:hover{
+    transform:translateY(-2px);
+}
+
+/* INFO */
+
+.info-grid{
+    margin-top:40px;
+
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:25px;
+}
+
+.info-card{
+    background:white;
+    border:1px solid var(--border);
+    border-radius:24px;
+    padding:28px;
+}
+
+.info-icon{
+    width:58px;
+    height:58px;
+    border-radius:50%;
+    background:rgba(232,168,0,0.12);
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:26px;
+
+    margin-bottom:18px;
+}
+
+.info-card h3{
+    margin-bottom:10px;
+    font-size:22px;
+}
+
+.info-card p{
+    color:var(--muted);
+    line-height:1.7;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:900px){
+
+    .form-row{
+        grid-template-columns:1fr;
+    }
+
+    .info-grid{
+        grid-template-columns:1fr;
+    }
+
+    .nav-links{
+        display:none;
+    }
+
+    .page-title{
+        font-size:42px;
+    }
+
+}
+
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+
+<nav>
+
+    <a href="/" class="logo">Günlük<span>İŞ</span></a>
+
+    <div class="nav-links">
+        <a href="/">Anasayfa</a>
+        <a href="#">İlanlar</a>
+        <a href="#">Nasıl Çalışır?</a>
+        <a href="#">İletişim</a>
+    </div>
+
+    <div class="nav-buttons">
+
+        <a href="/">
+            <button class="btn-ghost">
+                Geri Dön
+            </button>
+        </a>
+
+    </div>
+
+</nav>
+
+<!-- PAGE -->
+
+<div class="page">
+
+    <h1 class="page-title">
+        Yeni İlan Oluştur
+    </h1>
+
+    <p class="page-sub">
+        İşletmeniz için çalışan ilanı oluşturun ve hızlıca yayınlayın.
+    </p>
+
+    <!-- FORM CARD -->
+
+    <div class="form-card">
+
+        <div class="form-head">
+
+            <div>
+                <h2>İlan Bilgileri</h2>
+                <p>İş ilanınız için gerekli bilgileri doldurun.</p>
+            </div>
+
+            <div class="step">
+                İşletme & İş Detayları
+            </div>
+
+        </div>
+
+        <form method="POST">
+
+    {% csrf_token %}
+
+    <div class="form-row">
+
+        <div class="form-group">
+            <label>İşletme Adı</label>
+            <input type="text" name="isletme_adi">
+        </div>
+
+        <div class="form-group">
+            <label>Konum / Adres</label>
+            <input type="text" name="konum">
+        </div>
+
+    </div>
+
+    <div class="form-row">
+
+        <div class="form-group">
+
+            <label>İşletme Türü</label>
+
+            <select name="isletme_tipi">
+
+                <option>Restoran / Cafe</option>
+                <option>Market / AVM</option>
+                <option>Otel</option>
+                <option>Lojistik / Depo</option>
+                <option>Fabrika / Üretim</option>
+                <option>Güvenlik</option>
+                <option>Diğer</option>
+
+            </select>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Kaç Kişi Çalışacak?</label>
+
+            <input type="number"
+                   name="kisi_sayisi">
+
+        </div>
+
+    </div>
+
+    <div class="form-row">
+
+        <div class="form-group">
+
+            <label>Başlangıç Tarihi</label>
+
+            <input type="datetime-local"
+                   name="baslangic_tarihi">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Bitiş Tarihi</label>
+
+            <input type="datetime-local"
+                   name="bitis_tarihi">
+
+        </div>
+
+    </div>
+
+    <div class="form-row">
+
+        <div class="form-group">
+
+            <label>Ücret (₺)</label>
+
+            <input type="number"
+                   name="ucret">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Pozisyon</label>
+
+            <input type="text"
+                   name="pozisyon">
+
+        </div>
+
+    </div>
+
+    <div class="form-group">
+
+        <label>İş Tanımı</label>
+
+        <textarea
+            name="is_tanimi"></textarea>
+
+    </div>
+
+    <div class="form-row">
+
+        <div class="form-group">
+
+            <label>Yaş Aralığı</label>
+
+            <input type="text"
+                   name="yas_araligi">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Deneyim</label>
+
+            <input type="text"
+                   name="deneyim">
+
+        </div>
+
+    </div>
+
+    <div class="form-row">
+
+        <div class="form-group">
+
+            <label>Cinsiyet Şartı</label>
+
+            <select name="cinsiyet">
+
+                <option>Tümü</option>
+                <option>Erkek</option>
+                <option>Kadın</option>
+
+            </select>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Yemek</label>
+
+            <select name="yemek">
+
+                <option>Var</option>
+                <option>Yok</option>
+
+            </select>
+
+        </div>
+
+    </div>
+
+    <div class="form-row">
+
+        <div class="form-group">
+
+            <label>Ulaşım</label>
+
+            <select name="ulasim">
+
+                <option>Var</option>
+                <option>Yok</option>
+
+            </select>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Sigorta</label>
+
+            <select name="sigorta">
+
+                <option>Var</option>
+                <option>Yok</option>
+
+            </select>
+
+        </div>
+
+    </div>
+
+    <button class="submit-btn">
+
+        İlanı Oluştur →
+
+    </button>
+
+</form>
+
+    </div>
+
+    <!-- INFO -->
+
+    <div class="info-grid">
+
+        <div class="info-card">
+
+            <div class="info-icon">
+                ⚡
+            </div>
+
+            <h3>Hızlı Yayın</h3>
+
+            <p>
+                İlanınız saniyeler içinde yayına alınır.
+            </p>
+
+        </div>
+
+        <div class="info-card">
+
+            <div class="info-icon">
+                👥
+            </div>
+
+            <h3>Aktif Çalışanlar</h3>
+
+            <p>
+                Binlerce kullanıcı günlük iş fırsatlarını görüntüler.
+            </p>
+
+        </div>
+
+        <div class="info-card">
+
+            <div class="info-icon">
+                ✅
+            </div>
+
+            <h3>Kolay Yönetim</h3>
+
+            <p>
+                İlanlarınızı panel üzerinden kolayca yönetin.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

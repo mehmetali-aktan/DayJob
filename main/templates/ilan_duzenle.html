@@ -1,0 +1,31 @@
+<h1>İlan Düzenle</h1>
+
+<form method="POST">
+
+{% csrf_token %}
+
+<input
+type="text"
+name="pozisyon"
+value="{{ ilan.pozisyon }}">
+
+<br><br>
+
+<input
+type="number"
+name="ucret"
+value="{{ ilan.ucret }}">
+
+<br><br>
+
+<textarea name="is_tanimi">
+{{ ilan.is_tanimi }}
+</textarea>
+
+<br><br>
+
+<button type="submit">
+Kaydet
+</button>
+
+</form>

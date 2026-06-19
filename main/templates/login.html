@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Giriş Yap — GünlükİŞ</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+    --bg:#f4f4f6;
+    --card:#ffffff;
+    --border:#e7e7ee;
+    --accent:#e8a800;
+    --text:#18181f;
+    --muted:#7a7a9a;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:var(--bg);
+    font-family:'DM Sans',sans-serif;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:30px;
+}
+
+/* CARD */
+
+.login-card{
+    width:100%;
+    max-width:520px;
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    border-radius:32px;
+
+    padding:45px;
+
+    box-shadow:0 15px 50px rgba(0,0,0,0.05);
+}
+
+/* LOGO */
+
+.logo{
+    font-family:'Syne',sans-serif;
+    font-size:34px;
+    font-weight:800;
+
+    margin-bottom:14px;
+}
+
+.logo span{
+    color:var(--accent);
+}
+
+/* TITLES */
+
+.title{
+    font-family:'Syne',sans-serif;
+    font-size:42px;
+    font-weight:800;
+
+    margin-bottom:12px;
+}
+
+.sub{
+    color:var(--muted);
+
+    line-height:1.7;
+
+    margin-bottom:35px;
+}
+
+/* FORM */
+
+.form-group{
+    margin-bottom:22px;
+}
+
+.form-group label{
+    display:block;
+
+    margin-bottom:10px;
+
+    font-size:13px;
+
+    color:#77779a;
+
+    text-transform:uppercase;
+
+    font-weight:700;
+}
+
+.form-group input{
+    width:100%;
+
+    padding:18px;
+
+    border-radius:16px;
+
+    border:1px solid var(--border);
+
+    font-size:16px;
+
+    outline:none;
+
+    transition:.2s;
+}
+
+.form-group input:focus{
+    border-color:var(--accent);
+}
+
+/* BUTTON */
+
+.login-btn{
+    width:100%;
+
+    border:none;
+
+    padding:20px;
+
+    border-radius:18px;
+
+    background:var(--accent);
+
+    font-family:'Syne',sans-serif;
+
+    font-size:22px;
+
+    font-weight:800;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+    margin-top:10px;
+}
+
+.login-btn:hover{
+    transform:translateY(-2px);
+}
+
+/* LINKS */
+
+.bottom{
+    margin-top:28px;
+
+    text-align:center;
+
+    color:var(--muted);
+}
+
+.bottom a{
+    color:var(--accent);
+
+    text-decoration:none;
+
+    font-weight:700;
+}
+
+.back{
+    margin-top:18px;
+
+    text-align:center;
+}
+
+.back a{
+    text-decoration:none;
+
+    color:var(--muted);
+}
+
+/* RESPONSIVE */
+
+@media(max-width:600px){
+
+    .login-card{
+        padding:30px;
+    }
+
+    .title{
+        font-size:34px;
+    }
+
+}
+
+</style>
+</head>
+<body>
+
+<div class="login-card">
+
+    <div class="logo">
+        Günlük<span>İŞ</span>
+    </div>
+
+    <h1 class="title">
+        Giriş Yap
+    </h1>
+
+    <p class="sub">
+        Hesabınıza giriş yapın ve günlük iş fırsatlarına ulaşın.
+    </p>
+        {% if hata %}
+
+        <div style="
+        background:#ffe5e5;
+        color:#cc0000;
+        padding:14px;
+        border-radius:14px;
+        margin-bottom:20px;
+        font-weight:600;
+        ">
+
+        {{ hata }}
+
+        </div>
+
+        {% endif %}
+        <form method="POST">
+
+        {% csrf_token %}
+
+        <div class="form-group">
+
+            <label>E-Mail</label>
+
+            <input type="email"
+                   name="email"
+                   placeholder="email@ornek.com">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Şifre</label>
+
+            <input type="password"
+                   name="sifre"
+                   placeholder="********">
+
+        </div>
+
+        <button class="login-btn">
+            Giriş Yap →
+        </button>
+
+    </form>
+
+    <div class="bottom">
+
+        Hesabınız yok mu?
+
+        <a href="/kayit">
+            Kayıt Ol
+        </a>
+
+    </div>
+
+    <div class="back">
+
+        <a href="/">
+            ← Ana Sayfaya Dön
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+</html>

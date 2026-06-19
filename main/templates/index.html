@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GünlükİŞ — Günlük Çalışan & İşletme Platformu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  html {
+        scroll-behavior: smooth;
+    }
+  :root {
+    --bg: #f4f4f6;
+    --surface: #ffffff;
+    --surface2: #eeeff2;
+    --border: #e0e1e8;
+    --accent: #e8a800;
+    --accent2: #ff6b35;
+    --text: #18181f;
+    --muted: #7a7a9a;
+    --success: #1db87a;
+    --card-bg: #ffffff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 48px;
+    background: rgba(244,244,246,0.90);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid var(--border);
+  }
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 22px; letter-spacing: -0.5px;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a { color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 500; transition: color .2s; }
+  .nav-links a:hover { color: var(--text); }
+  .nav-btns { display: flex; gap: 12px; }
+  .btn-ghost {
+    padding: 9px 20px; border-radius: 8px; border: 1px solid var(--border);
+    background: transparent; color: var(--text); cursor: pointer;
+    font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500;
+    transition: all .2s;
+  }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-primary {
+    padding: 9px 22px; border-radius: 8px; border: none;
+    background: var(--accent); color: #000; cursor: pointer;
+    font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700;
+    transition: all .2s;
+  }
+  .btn-primary:hover { background: #ffd966; transform: translateY(-1px); }
+
+  /* ─── HERO ─── */
+  .hero {
+    padding: 160px 48px 100px;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: -200px; right: -200px;
+    width: 700px; height: 700px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(232,168,0,0.08) 0%, transparent 70%);
+  }
+  .hero::after {
+    content: '';
+    position: absolute; bottom: -100px; left: 20%;
+    width: 400px; height: 400px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,107,53,0.05) 0%, transparent 70%);
+  }
+  .hero-tag {
+    display: inline-block; padding: 6px 14px; border-radius: 100px;
+    background: rgba(232,168,0,0.1); border: 1px solid rgba(232,168,0,0.25);
+    color: var(--accent); font-size: 13px; font-weight: 500;
+    margin-bottom: 28px;
+    animation: fadeUp .6s ease both;
+  }
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(42px, 6vw, 80px);
+    font-weight: 800; line-height: 1.05;
+    letter-spacing: -2px;
+    max-width: 700px;
+    animation: fadeUp .7s .1s ease both;
+  }
+  .hero h1 em { color: var(--accent); font-style: normal; }
+  .hero p {
+    color: var(--muted); font-size: 18px; line-height: 1.7;
+    max-width: 500px; margin-top: 20px;
+    animation: fadeUp .7s .2s ease both;
+  }
+
+  /* Search bar */
+  .search-bar {
+    display: flex; align-items: center; gap: 12px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 16px; padding: 8px 8px 8px 20px;
+    max-width: 640px; margin-top: 40px;
+    animation: fadeUp .7s .3s ease both;
+    transition: border-color .3s;
+  }
+  .search-bar:focus-within { border-color: var(--accent); }
+  .search-bar input {
+    flex: 1; background: none; border: none; outline: none;
+    color: var(--text); font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+  }
+  .search-bar input::placeholder { color: var(--muted); }
+  .search-bar select {
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 10px; color: var(--muted); padding: 10px 14px;
+    font-family: 'DM Sans', sans-serif; font-size: 14px; outline: none;
+    cursor: pointer;
+  }
+  .search-bar .btn-primary { padding: 12px 24px; border-radius: 10px; font-size: 15px; }
+
+  .hero-stats {
+    display: flex; gap: 48px; margin-top: 56px;
+    animation: fadeUp .7s .4s ease both;
+  }
+  .stat-item h3 {
+    font-family: 'Syne', sans-serif; font-size: 32px; font-weight: 800;
+    color: var(--text);
+  }
+  .stat-item p { color: var(--muted); font-size: 14px; margin-top: 4px; }
+
+  /* ─── SECTION ─── */
+  section { padding: 80px 48px; }
+  .section-label {
+    font-size: 12px; font-weight: 600; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif; font-size: 36px; font-weight: 800;
+    letter-spacing: -1px; max-width: 480px;
+  }
+  .section-sub { color: var(--muted); margin-top: 10px; max-width: 420px; line-height: 1.6; }
+
+  /* ─── HOW IT WORKS ─── */
+  .how-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+    margin-top: 48px;
+  }
+  .how-card {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: 20px; padding: 36px 32px;
+    position: relative; overflow: hidden;
+    transition: transform .3s, border-color .3s;
+  }
+  .how-card:hover { transform: translateY(-4px); border-color: var(--accent); }
+  .how-card::before {
+    content: attr(data-n);
+    position: absolute; top: -10px; right: 16px;
+    font-family: 'Syne', sans-serif; font-size: 80px; font-weight: 800;
+    color: rgba(232,168,0,0.08); line-height: 1;
+  }
+  .how-icon {
+    width: 48px; height: 48px; border-radius: 12px;
+    background: rgba(245,200,66,0.1);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; margin-bottom: 20px;
+  }
+  .how-card h3 {
+    font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .how-card p { color: var(--muted); font-size: 14px; line-height: 1.7; }
+
+  /* ─── ILAN CARDS ─── */
+
+ .ilan-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+
+    gap:25px;
+
+    margin-top:40px;
+}
+
+.ilan-card{
+
+    background:white;
+
+    border-radius:26px;
+
+    padding:28px;
+
+    border:1px solid #ececf2;
+
+    box-shadow:0 10px 30px rgba(0,0,0,0.04);
+
+    transition:.2s;
+}
+
+.ilan-card:hover{
+
+    transform:translateY(-8px);
+
+    box-shadow:0 20px 50px rgba(0,0,0,.08);
+
+    border-color:#e8a800;
+}
+
+.ilan-top{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:flex-start;
+
+    margin-bottom:20px;
+}
+
+.ilan-type{
+
+    display:inline-block;
+
+    background:#fff4d9;
+
+    color:#d49800;
+
+    padding:8px 14px;
+
+    border-radius:999px;
+
+    font-size:13px;
+
+    font-weight:700;
+
+    margin-bottom:12px;
+}
+
+.ilan-price{
+
+    font-size:24px;
+
+    font-weight:800;
+}
+
+.ilan-card h2{
+
+    font-size:28px;
+
+    margin-bottom:10px;
+}
+
+.ilan-desc{
+
+    color:#70708a;
+
+    line-height:1.7;
+
+    margin-bottom:20px;
+}
+
+.ilan-info{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    color:#70708a;
+
+    font-weight:600;
+}
+
+  /* ─── REGISTER 2-STEP ─── */
+  .register-section {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .reg-container { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+  .reg-info h2 {
+    font-family: 'Syne', sans-serif; font-size: 40px; font-weight: 800;
+    letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 20px;
+  }
+  .reg-info p { color: var(--muted); line-height: 1.7; font-size: 15px; }
+  .features-list { margin-top: 28px; display: flex; flex-direction: column; gap: 14px; }
+  .feat-item { display: flex; align-items: center; gap: 12px; font-size: 14px; }
+  .feat-icon {
+    width: 28px; height: 28px; border-radius: 8px;
+    background: rgba(232,168,0,0.12); display: flex; align-items: center;
+    justify-content: center; font-size: 13px; flex-shrink: 0;
+  }
+
+  /* Step indicator */
+  .step-indicator {
+    display: flex; align-items: center; gap: 0; margin-bottom: 32px;
+  }
+  .step-dot {
+    display: flex; align-items: center; justify-content: center;
+    width: 36px; height: 36px; border-radius: 50%;
+    font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700;
+    border: 2px solid var(--border); color: var(--muted);
+    transition: all .3s; flex-shrink: 0; background: var(--card-bg);
+  }
+  .step-dot.active { border-color: var(--accent); color: var(--accent); background: rgba(245,200,66,0.1); }
+  .step-dot.done { border-color: var(--success); color: #000; background: var(--success); }
+  .step-line {
+    flex: 1; height: 2px; background: var(--border); transition: background .3s;
+  }
+  .step-line.done { background: var(--success); }
+  .step-label {
+    display: flex; justify-content: space-between;
+    margin-top: 8px; margin-bottom: 28px;
+  }
+  .step-label span { font-size: 12px; color: var(--muted); font-weight: 500; }
+  .step-label span.active { color: var(--accent); }
+
+  /* Form box */
+  .reg-box { background: var(--card-bg); border: 1px solid var(--border); border-radius: 24px; overflow: hidden; }
+  .reg-box-header { padding: 24px 32px; border-bottom: 1px solid var(--border); }
+  .reg-box-header h3 { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; }
+  .reg-box-header p { color: var(--muted); font-size: 13px; margin-top: 4px; }
+  .reg-box-body { padding: 32px; }
+
+  /* Type chooser */
+  .type-chooser {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 8px;
+  }
+  .type-card {
+    border: 2px solid var(--border); border-radius: 16px; padding: 28px 20px;
+    text-align: center; cursor: pointer; transition: all .25s;
+    background: var(--surface2);
+  }
+  .type-card:hover { border-color: var(--muted); transform: translateY(-2px); }
+  .type-card.selected { border-color: var(--accent); background: rgba(232,168,0,0.06); }
+  .type-card .tc-icon { font-size: 40px; margin-bottom: 14px; }
+  .type-card h4 { font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 700; margin-bottom: 6px; }
+  .type-card p { color: var(--muted); font-size: 13px; line-height: 1.5; }
+  .type-card .tc-check {
+    width: 22px; height: 22px; border-radius: 50%;
+    border: 2px solid var(--border); margin: 14px auto 0;
+    display: flex; align-items: center; justify-content: center;
+    transition: all .25s;
+  }
+  .type-card.selected .tc-check { border-color: var(--accent); background: var(--accent); color: #000; font-size: 12px; }
+
+  /* Step panels */
+  .reg-step { display: none; }
+  .reg-step.active { display: block; animation: fadeUp .35s ease; }
+
+  /* Nav buttons */
+  .reg-nav { display: flex; gap: 12px; margin-top: 24px; }
+  .btn-back {
+    padding: 14px 24px; border-radius: 12px; border: 1px solid var(--border);
+    background: transparent; color: var(--muted); cursor: pointer;
+    font-family: 'DM Sans', sans-serif; font-size: 15px; transition: all .2s;
+  }
+  .btn-back:hover { border-color: var(--text); color: var(--text); }
+
+  /* Form */
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+  .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+  .form-group label { font-size: 12px; color: var(--muted); font-weight: 500; text-transform: uppercase; letter-spacing: .5px; }
+  .form-group input, .form-group select, .form-group textarea {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 12px 16px;
+    color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 15px;
+    outline: none; transition: border-color .2s;
+    width: 100%;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    border-color: var(--accent);
+  }
+  .form-group select { cursor: pointer; }
+  .form-group textarea { resize: vertical; min-height: 80px; }
+  .form-section-title {
+    font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700;
+    color: var(--accent); text-transform: uppercase; letter-spacing: 1px;
+    margin: 22px 0 14px; padding-top: 22px; border-top: 1px solid var(--border);
+  }
+  .checkbox-group { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 6px; }
+  .cb-label {
+    display: flex; align-items: center; gap: 6px; cursor: pointer;
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 8px; padding: 7px 14px; font-size: 13px;
+    transition: all .2s;
+  }
+  .cb-label:has(input:checked) { border-color: var(--accent); color: var(--accent); background: rgba(245,200,66,0.07); }
+  .cb-label input { accent-color: var(--accent); }
+  .yesno-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .yesno-group { display: flex; flex-direction: column; gap: 8px; }
+  .yesno-group .yn-title { font-size: 12px; color: var(--muted); font-weight: 500; text-transform: uppercase; letter-spacing: .5px; }
+  .yesno-options { display: flex; gap: 8px; flex-wrap: wrap; }
+  .submit-btn {
+    width: 100%; padding: 16px; background: var(--accent); color: #000;
+    border: none; border-radius: 12px; font-family: 'Syne', sans-serif;
+    font-size: 16px; font-weight: 800; cursor: pointer; margin-top: 8px;
+    transition: all .2s; letter-spacing: .3px;
+  }
+  .submit-btn:hover { background: #ffd966; transform: translateY(-2px); }
+
+  /* ─── DB FIELDS ─── */
+  .db-section { background: var(--bg); }
+  .db-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-top: 40px; }
+  .db-col {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: 16px; overflow: hidden;
+  }
+  .db-col-header {
+    padding: 14px 16px; font-family: 'Syne', sans-serif;
+    font-size: 12px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .5px; border-bottom: 1px solid var(--border);
+  }
+  .col-ortak { background: rgba(245,200,66,0.1); color: var(--accent); }
+  .col-calisan { background: rgba(61,230,158,0.1); color: var(--success); }
+  .col-isletme { background: rgba(255,107,53,0.1); color: var(--accent2); }
+  .col-db { background: rgba(100,100,255,0.1); color: #9999ff; }
+  .col-ilan { background: rgba(255,100,200,0.1); color: #ff88dd; }
+  .db-col ul { list-style: none; padding: 12px; }
+  .db-col li {
+    padding: 7px 10px; font-size: 13px; color: var(--muted);
+    border-radius: 6px; display: flex; align-items: center; gap: 6px;
+    transition: background .2s;
+  }
+  .db-col li:hover { background: var(--surface2); color: var(--text); }
+  .db-col li::before { content: '⬡'; font-size: 8px; opacity: 0.5; }
+  .db-col li .req { color: var(--accent); font-size: 10px; margin-left: auto; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    border-top: 1px solid var(--border); padding: 48px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  footer p { color: var(--muted); font-size: 14px; }
+  .footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 20px; }
+  .footer-logo span { color: var(--accent); }
+
+  /* ─── MODAL ─── */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0; z-index: 200;
+    background: rgba(0,0,0,0.4); backdrop-filter: blur(6px);
+    align-items: center; justify-content: center;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: 24px; padding: 40px; max-width: 500px; width: 90%;
+    animation: fadeUp .3s ease;
+  }
+  .modal h2 { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 800; margin-bottom: 8px; }
+  .modal p { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+  .modal-close {
+    position: absolute; top: 20px; right: 20px; width: 36px; height: 36px;
+    border-radius: 10px; border: 1px solid var(--border); background: none;
+    color: var(--muted); font-size: 18px; cursor: pointer; display: flex;
+    align-items: center; justify-content: center;
+  }
+  .badge{
+
+    background:#fff4d9;
+
+    color:#b67e00;
+
+    padding:8px 14px;
+
+    border-radius:999px;
+
+    font-size:13px;
+
+    font-weight:700;
+}
+
+.mini-badge{
+
+    background:#f5f5f8;
+
+    color:#666;
+
+    padding:7px 12px;
+
+    border-radius:999px;
+
+    font-size:12px;
+
+    font-weight:600;
+}
+.ilan-footer{
+
+    margin-top:20px;
+
+    padding-top:18px;
+
+    border-top:1px solid #ececf2;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    font-weight:700;
+
+    color:#18181f;
+
+    transition:.2s;
+}
+
+.ilan-card:hover .ilan-footer{
+
+    color:#e8a800;
+}
+.ilan-job{
+
+    font-size:22px;
+
+    font-weight:800;
+
+    margin-bottom:14px;
+
+    color:#18181f;
+}
+.ilan-section{
+
+    padding:20px 48px 0 48px;
+
+    margin-top:20px;
+}
+
+.ilan-section .section-title{
+
+    margin-bottom:10px;
+}
+
+.ilan-section .section-sub{
+
+    margin-bottom:30px;
+}
+.footer{
+
+    margin-top:100px;
+
+    background:white;
+
+    border-top:1px solid #ececf2;
+
+    padding:60px 48px 30px;
+}
+
+.footer-content{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:flex-start;
+
+    gap:40px;
+}
+
+.footer-logo{
+
+    font-family:'Syne',sans-serif;
+
+    font-size:32px;
+
+    font-weight:800;
+
+    margin-bottom:10px;
+}
+
+.footer-logo span{
+
+    color:#e8a800;
+}
+
+.footer-left p{
+
+    color:#70708a;
+
+    max-width:350px;
+
+    line-height:1.7;
+}
+
+.footer-links{
+
+    display:flex;
+
+    gap:25px;
+
+    flex-wrap:wrap;
+}
+
+.footer-links a{
+
+    text-decoration:none;
+
+    color:#70708a;
+
+    font-weight:600;
+
+    transition:.2s;
+}
+
+.footer-links a:hover{
+
+    color:#e8a800;
+}
+
+.footer-bottom{
+
+    margin-top:40px;
+
+    padding-top:20px;
+
+    border-top:1px solid #ececf2;
+
+    text-align:center;
+
+    color:#999;
+}
+.footer{
+    clear: both;
+    width: 100%;
+}
+.why-section{
+
+    padding:100px 48px;
+
+    text-align:center;
+}
+
+.why-grid{
+
+    margin-top:50px;
+
+    display:grid;
+
+    grid-template-columns:repeat(3,1fr);
+
+    gap:25px;
+}
+
+.why-card{
+
+    background:white;
+
+    padding:35px;
+
+    border-radius:24px;
+
+    border:1px solid #ececf2;
+
+    transition:.2s;
+}
+
+.why-card:hover{
+
+    transform:translateY(-5px);
+}
+
+.why-icon{
+
+    font-size:42px;
+
+    margin-bottom:20px;
+}
+
+.why-card h3{
+
+    margin-bottom:12px;
+
+    font-size:22px;
+}
+
+.why-card p{
+
+    color:#777;
+
+    line-height:1.7;
+}
+
+@media(max-width:900px){
+
+    .why-grid{
+
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:768px){
+
+    .footer-content{
+
+        flex-direction:column;
+    }
+}
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 1024px) {
+    .ilan-grid { grid-template-columns: 1fr 1fr; }
+    .db-grid { grid-template-columns: repeat(3, 1fr); }
+    .how-grid { grid-template-columns: 1fr 1fr; }
+    .reg-container { grid-template-columns: 1fr; gap: 40px; }
+  }
+  @media (max-width: 768px) {
+    nav { padding: 16px 20px; }
+    .nav-links { display: none; }
+    .hero { padding: 120px 20px 60px; }
+    section { padding: 60px 20px; }
+    .ilan-grid { grid-template-columns: 1fr; }
+    .db-grid { grid-template-columns: 1fr 1fr; }
+    .how-grid { grid-template-columns: 1fr; }
+    .hero-stats { gap: 28px; flex-wrap: wrap; }
+    .form-row { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 16px; text-align: center; }
+  }
+
+  .success-msg-box {
+    max-width: 1200px;
+    margin: 100px auto -80px auto; /* Navbar'ın altında temiz durması için */
+    padding: 0 48px;
+    text-align: center;
+    position: relative;
+    z-index: 101;
+  }
+  .success-msg-content {
+    padding: 14px 28px;
+    background-color: #e6f9f0; 
+    color: #1db87a; 
+    border: 1px solid #a3ebd0; 
+    border-radius: 14px; 
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    display: inline-block;
+    box-shadow: 0 4px 15px rgba(29,184,122,0.05);
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="logo">Günlük<span>İŞ</span></a>
+<ul class="nav-links">
+    <li><a href="/kayit/">Kayıt Ol</a></li>
+    <li><a href="/puanla/" style="color:#e8a800; font-weight:bold;">Puanla ⭐️</a></li> ```
+    <li><a href="#ilanlar">İlanlar</a></li>
+    
+    {% if hesap_turu != 'calisan' %}
+    <li><a href="/ilan-ver/">İlan Ver</a></li>
+    {% endif %}
+    
+    <li><a href="#nasil-calisir">Nasıl Çalışır?</a></li>
+    
+    {% if not kullanici_ad %}
+    <li><a href="/kayit/">Kayıt Ol</a></li>
+    {% endif %}
+</ul>
+  <div class="nav-btns">
+{% if kullanici_ad %}
+
+<div style="
+padding:14px 22px;
+background:#fff3d6;
+border-radius:14px;
+font-weight:700;
+">
+👋 {{ kullanici_ad }}
+</div>
+
+{% if hesap_turu == 'isletme' %}
+
+<a href="/panel/">
+<button class="btn-ghost">
+Panelim
+</button>
+</a>
+
+<a href="/basvurular/">
+<button class="btn-ghost">
+Başvurular
+</button>
+</a>
+
+{% endif %}
+
+{% if hesap_turu == 'calisan' %}
+
+<a href="/profil/">
+<button class="btn-ghost">
+Profilim
+</button>
+</a>
+
+<a href="/basvurularim/">
+<button class="btn-ghost">
+Başvurularım
+</button>
+</a>
+
+{% endif %}
+
+<a href="/cikis/">
+<button class="btn-primary">
+Çıkış Yap
+</button>
+</a>
+
+{% else %}
+    <a href="/giris/">
+    <button class="btn-ghost">
+    Giriş Yap
+    </button>
+    </a>
+
+    <a href="/kayit/">
+    <button class="btn-primary">
+    Kayıt Ol
+    </button>
+    </a>
+
+    {% endif %}
+  </div>
+</nav>
+
+{% if messages %}
+    <div class="success-msg-box" id="basari-mesaji">
+        {% for message in messages %}
+            <div class="success-msg-content">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">🟡 Türkiye'nin günlük iş platformu</div>
+  <h1>Bugün çalış,<br><em>bugün kazan.</em></h1>
+  <p>İşletmeler tek günlük işçi buluyor, çalışanlar günlük iş buluyor. Hızlı, güvenli, kolay.</p>
+
+<form method="GET" class="search-bar">
+
+    <span>🔍</span>
+
+    <input
+        type="text"
+        name="arama"
+        placeholder="Pozisyon ara..."
+        value="{{ request.GET.arama }}">
+
+    <button
+        type="submit"
+        class="btn-primary">
+
+        Ara
+
+    </button>
+
+</form>
+
+  </div>
+</div>
+
+<!-- NASIL ÇALIŞIR -->
+<section id="nasil-calisir">
+  <div class="section-label">Platform</div>
+  <h2 class="section-title">Nasıl çalışır?</h2>
+  <p class="section-sub">3 adımda günlük işinizi bulun veya çalışanınızı işe alın.</p>
+
+  <div class="how-grid">
+    <div class="how-card" data-n="01">
+      <div class="how-icon">👤</div>
+      <h3>Profil Oluştur</h3>
+      <p>Çalışan veya işletme olarak kayıt ol. Biyometrik fotoğraf, deneyim ve yeteneklerini ekle.</p>
+    </div>
+    <div class="how-card" data-n="02">
+      <div class="how-icon">📋</div>
+      <h3>İlan Ver veya Ara</h3>
+      <p>İşletmeler tarih, ücret ve olanakları belirterek ilan verir. Çalışanlar konum ve mesleğe göre filtreler.</p>
+    </div>
+    <div class="how-card" data-n="03">
+      <div class="how-icon">✅</div>
+      <h3>Eşleş & Çalış</h3>
+      <p>Sistem puanlamaya göre eşleştirir. Onaylandıktan sonra işe git, günü tamamla, ücretini al.</p>
+    </div>
+  </div>
+</section>
+
+<!-- İLANLAR -->
+ <section id="ilanlar" class="ilan-section">
+
+    <div class="section-label">
+        Güncel İlanlar
+    </div>
+
+  <h2 class="section-title">
+      Açık Pozisyonlar
+  </h2>
+
+    <p class="section-sub">
+        Günlük iş fırsatlarına göz atın ve size uygun ilana hemen başvurun.
+    </p>
+
+</section>
+<div class="ilan-grid">
+
+
+{% for ilan in ilanlar %}
+
+<a href="/ilan/{{ ilan.id }}/"
+   style="text-decoration:none;color:inherit;">
+
+<div class="ilan-card">
+
+    <div class="ilan-top">
+
+        <div>
+
+            <div class="ilan-type">
+                {{ ilan.isletme_tipi }}
+            </div>
+
+            <h2>
+                {{ ilan.isletme_adi }}
+                <div style="font-size: 13px; color: #7a7a9a; margin-top: 5px; font-weight: 700;">
+    ⭐          {{ ilan.isletme.ortalama_puan|floatformat:1 }} ({{ ilan.isletme.puan_sayisi }} Değerlendirme)
+</div>
+            </h2>
+
+        </div>
+
+        <div class="ilan-price">
+            ₺{{ ilan.ucret }}
+        </div>
+
+    </div>
+
+ <p class="ilan-desc">
+    {{ ilan.is_tanimi|truncatechars:120 }}
+</p>
+
+<div style="
+display:flex;
+flex-wrap:wrap;
+gap:10px;
+margin-bottom:20px;
+">
+
+    <span class="badge">📍 {{ ilan.konum }}</span>
+
+    <span class="badge"><div class="ilan-job">
+
+    {{ ilan.pozisyon }}
+
+</div>
+</span>
+
+    <span class="badge">🎯 {{ ilan.deneyim }}</span>
+
+</div>
+
+<div class="ilan-info">
+
+    <div>
+        👥 {{ ilan.kisi_sayisi }} Kişi
+    </div>
+
+    <div>
+        💰 ₺{{ ilan.ucret }}
+    </div>
+
+</div>
+
+<div style="
+display:flex;
+gap:10px;
+margin-top:18px;
+flex-wrap:wrap;
+">
+
+    <span class="mini-badge">
+        🍽 {{ ilan.yemek }}
+    </span>
+
+    <span class="mini-badge">
+        🚌 {{ ilan.ulasim }}
+    </span>
+
+    <span class="mini-badge">
+        🛡 {{ ilan.sigorta }}
+    </span>
+    <div class="ilan-footer">
+
+    <span>
+        İş Detaylarını Gör
+    </span>
+
+    <span>
+        →
+    </span>
+
+</div>
+
+</div>
+
+</div>
+</a>
+
+{% endfor %}
+</div>
+<section class="why-section">
+
+    <div class="section-header">
+
+        <span class="section-tag">
+            Avantajlar
+        </span>
+
+        <h2>
+            Neden GünlükİŞ?
+        </h2>
+
+        <p>
+            İş arayanlarla işletmeleri hızlı ve güvenilir şekilde buluşturuyoruz.
+        </p>
+
+    </div>
+
+    <div class="why-grid">
+
+        <div class="why-card">
+
+            <div class="why-icon">⚡</div>
+
+            <h3>Hızlı Başvuru</h3>
+
+            <p>
+                Dakikalar içinde iş ilanlarına başvurabilir ve geri dönüş alabilirsiniz.
+            </p>
+
+        </div>
+
+        <div class="why-card">
+
+            <div class="why-icon">🏢</div>
+
+            <h3>Güvenilir İşletmeler</h3>
+
+            <p>
+                Doğrulanmış işletmeler ve gerçek iş fırsatları.
+            </p>
+
+        </div>
+
+        <div class="why-card">
+
+            <div class="why-icon">💰</div>
+
+            <h3>Günlük Kazanç</h3>
+
+            <p>
+                Ek gelir elde etmek isteyenler için yüzlerce fırsat.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<footer class="footer">
+
+    <div class="footer-content">
+
+        <div class="footer-left">
+
+            <div class="footer-logo">
+                Günlük<span>İŞ</span>
+            </div>
+
+            <p>
+                Günlük işler, hızlı başvurular ve güvenilir işletmeler.
+            </p>
+
+        </div>
+
+        <div class="footer-links">
+
+            <a href="/">Anasayfa</a>
+
+            <a href="#ilanlar">İlanlar</a>
+
+            <a href="#nasil-calisir">Nasıl Çalışır?</a>
+
+            <a href="/kayit/">Kayıt Ol</a>
+
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+        © 2026 GünlükİŞ - Tüm Hakları Saklıdır
+    </div>
+
+</footer>
+
+
+<script>
+  let selectedType = null;
+
+  function goStep2() {
+    document.getElementById('step1').classList.remove('active');
+    document.getElementById('step2').classList.add('active');
+    document.getElementById('sdot1').classList.remove('active');
+    document.getElementById('sdot1').classList.add('done');
+    document.getElementById('sdot1').innerHTML = '✓';
+    document.getElementById('sline1').classList.add('done');
+    document.getElementById('sdot2').classList.add('active');
+    document.getElementById('slabel1').style.color = 'var(--success)';
+    document.getElementById('slabel2').style.color = 'var(--accent)';
+  }
+
+  function goStep1() {
+    document.getElementById('step2').classList.remove('active');
+    document.getElementById('step1').classList.add('active');
+    document.getElementById('sdot1').classList.add('active');
+    document.getElementById('sdot1').classList.remove('done');
+    document.getElementById('sdot1').innerHTML = '1';
+    document.getElementById('sline1').classList.remove('done');
+    document.getElementById('sdot2').classList.remove('active');
+    document.getElementById('slabel1').style.color = 'var(--accent)';
+    document.getElementById('slabel2').style.color = 'var(--muted)';
+  }
+
+  function selectType(type) {
+    selectedType = type;
+    document.querySelectorAll('.type-card').forEach(c => c.classList.remove('selected'));
+    document.querySelectorAll('.tc-check').forEach(c => c.innerHTML = '');
+    document.getElementById('tc-' + type).classList.add('selected');
+    document.getElementById('tck-' + type).innerHTML = '✓';
+    document.getElementById('detail-calisan').style.display = 'none';
+    document.getElementById('detail-isletme').style.display = 'none';
+    document.getElementById('detail-' + type).style.display = 'block';
+    document.getElementById('reg-nav-buttons').style.display = 'block';
+    document.getElementById('reg-nav-nosel').style.display = 'none';
+  }
+
+  function submitForm() {
+    document.getElementById('step2').classList.remove('active');
+    document.getElementById('step3').classList.add('active');
+    document.getElementById('sdot2').classList.remove('active');
+    document.getElementById('sdot2').classList.add('done');
+    document.getElementById('sdot2').innerHTML = '✓';
+  }
+
+  function openModal(name) {
+    document.getElementById('modal-' + name).classList.add('open');
+  }
+  function closeModal(name) {
+    document.getElementById('modal-' + name).classList.remove('open');
+  }
+  document.getElementById('modal-login').addEventListener('click', function(e) {
+    if (e.target === this) closeModal('login');
+  });
+
+  // Fade in on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.how-card, .ilan-card').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity .5s ease, transform .5s ease';
+    observer.observe(el);
+  });
+</script>
+<script>
+    // Sayfada basari-mesaji id'sine sahip bir kutu var mı diye bakıyoruz
+    var mesajKutusu = document.getElementById('basari-mesaji');
+    
+    if (mesajKutusu) {
+        setTimeout(function() {
+            mesajKutusu.style.transition = "opacity 1s ease";
+            mesajKutusu.style.opacity = "0";
+            
+            setTimeout(function() {
+                mesajKutusu.style.display = "none";
+            }, 1000);
+            
+        }, 5000);
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Başvurular</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+body { background:#f4f4f6; font-family:'DM Sans',sans-serif; padding:40px; margin-top: 80px; }
+h1 { font-family:'Syne',sans-serif; margin-bottom:30px; }
+.card { background:white; border-radius:24px; padding:25px; margin-bottom:20px; border:1px solid #e7e7ee; }
+.card h2 { margin-bottom:15px; }
+.info { margin:8px 0; }
+.btn { padding:12px 18px; border:none; border-radius:12px; cursor:pointer; font-weight:700; margin-top:15px; text-decoration: none; display: inline-block; }
+.approve { background:#1db87a; color:white; }
+.reject { background:#e74c3c; color:white; }
+
+/* Üst Bar (Navbar) */
+nav { 
+    background: white; border-bottom: 1px solid #e7e7ee; padding: 18px 50px; 
+    display: flex; align-items: center; justify-content: space-between;
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+}
+.logo { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 800; text-decoration: none; color: #18181f; }
+.logo span { color: #e8a800; }
+.nav-btns a { padding: 9px 20px; border-radius: 8px; border: 1px solid #e0e1e8; background: transparent; cursor: pointer; text-decoration: none; color: black; font-weight: 600; margin-left: 10px; }
+</style>
+</head>
+
+<body>
+
+<nav>
+    <a href="/" class="logo">Günlük<span>İŞ</span></a>
+    <div class="nav-btns">
+        <a href="/" class="btn-ghost">Anasayfa</a>
+        <a href="/panel/" class="btn-ghost">Panelim</a>
+        <a href="/cikis/" class="btn-ghost">Çıkış Yap</a>
+    </div>
+</nav>
+
+<h1>Gelen Başvurular (Beklemede)</h1>
+
+{% for basvuru in aktif_basvurular %}
+<div class="card">
+    <h2>
+        <a href="/calisan/{{ basvuru.kullanici.id }}/" style="text-decoration:none; color:#18181f;">
+            {{ basvuru.kullanici.ad }} {{ basvuru.kullanici.soyad }}
+        </a>
+    </h2>
+    <div class="info">📧 {{ basvuru.kullanici.email }}</div>
+    <div class="info" style="color:#e8a800; font-size:18px;">
+    ⭐ Çalışan Puanı: <strong>{{ basvuru.kullanici.calisan.ortalama_puan|floatformat:1 }}</strong> ({{ basvuru.kullanici.calisan.puan_sayisi }} Değerlendirme)
+</div>
+    <div class="info">📞 {{ basvuru.kullanici.telefon }}</div>
+    <div class="info">📏 Boy: {{ basvuru.kullanici.calisan.boy }} cm</div>
+    <div class="info">⚖️ Kilo: {{ basvuru.kullanici.calisan.kilo }} kg</div>
+    <div class="info">🎂 Doğum Tarihi: {{ basvuru.kullanici.dogum_tarihi|date:"d.m.Y" }}</div>
+    <div class="info">👤 Cinsiyet: {{ basvuru.kullanici.calisan.cinsiyet }}</div>
+    <div class="info">🛠 Deneyim: {{ basvuru.kullanici.calisan.meslekler }}</div>
+    <div class="info">💼 Pozisyon: <strong>{{ basvuru.ilan.pozisyon }}</strong></div>
+    <div class="info">📅 Başvuru Tarihi: {{ basvuru.basvuru_tarihi }}</div>
+
+    <div style="display: flex; gap: 10px;">
+        <a href="/basvuru-onayla/{{ basvuru.id }}/" class="btn approve">Onayla</a>
+        <a href="/basvuru-reddet/{{ basvuru.id }}/" class="btn reject">Reddet</a>
+    </div>
+</div>
+{% empty %}
+<div class="card">Bekleyen yeni bir başvuru bulunmuyor.</div>
+{% endfor %}
+
+
+<h1 style="margin-top: 60px; color: #7a7a9a;">Geçmiş Başvurular (Pasif)</h1>
+
+{% for basvuru in gecmis_basvurular %}
+<div class="card" style="opacity: 0.65;">
+    <h2>
+        <a href="/calisan/{{ basvuru.kullanici.id }}/" style="text-decoration:none; color:#18181f;">
+            {{ basvuru.kullanici.ad }} {{ basvuru.kullanici.soyad }}
+        </a>
+    </h2>
+    <div class="info">📧 {{ basvuru.kullanici.email }}</div>
+    <div class="info" style="color:#e8a800; font-size:18px;">
+    ⭐ Çalışan Puanı: <strong>{{ basvuru.kullanici.calisan.ortalama_puan|floatformat:1 }}</strong> ({{ basvuru.kullanici.calisan.puan_sayisi }} Değerlendirme)
+</div>
+    <div class="info">📞 {{ basvuru.kullanici.telefon }}</div>
+    <div class="info">📏 Boy: {{ basvuru.kullanici.calisan.boy }} cm</div>
+    <div class="info">⚖️ Kilo: {{ basvuru.kullanici.calisan.kilo }} kg</div>
+    <div class="info">🎂 Doğum Tarihi: {{ basvuru.kullanici.dogum_tarihi|date:"d.m.Y" }}</div>
+    <div class="info">👤 Cinsiyet: {{ basvuru.kullanici.calisan.cinsiyet }}</div>
+    <div class="info">🛠 Deneyim: {{ basvuru.kullanici.calisan.meslekler }}</div>
+    <div class="info">💼 Pozisyon: <strong>{{ basvuru.ilan.pozisyon }}</strong></div>
+    <div class="info">📅 Başvuru Tarihi: {{ basvuru.basvuru_tarihi }}</div>
+    <div class="info" style="margin-top: 15px; font-weight: bold;">
+        {% if basvuru.durum == 'Onaylandı' %}
+            <span style="color: #1db87a;">✅ Kabul Edildi (İşe Alındı)</span>
+        {% else %}
+            <span style="color: #e74c3c;">❌ Reddedildi / İlan Kapatıldı</span>
+        {% endif %}
+    </div>
+</div>
+{% empty %}
+<div class="card">Henüz geçmişte işlem yapılmış bir başvuru bulunmuyor.</div>
+{% endfor %}
+
+</body>
+</html>
